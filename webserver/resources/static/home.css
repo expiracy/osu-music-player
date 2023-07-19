@@ -1,0 +1,65 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    color: #f062a1;
+}
+
+h2 {
+    text-align: center;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.playlist ul {
+    text-align: center;
+    list-style: none;
+    padding: 0;
+}
+
+.player {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.album-art img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.song-info {
+    margin-top: 20px;
+}
+
+.controls {
+    margin-top: 20px;
+}
+
+.play-btn,
+.next-btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #f062a1;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.play-btn:hover,
+.next-btn:hover {
+    background-color: #ff87c6;
+}
