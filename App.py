@@ -1,8 +1,10 @@
-from music.SongExtractor import SongExtractor
+from music.SongDataExtractor import SongDataExtractor
 
 
 class App:
     def __init__(self, osu_folder):
-        self.extractor = SongExtractor(f"{osu_folder}/Songs").extract()
-        pass
+        self.extractor = SongDataExtractor(f"{osu_folder}/Songs").extract()
+
+
+
 

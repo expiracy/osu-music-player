@@ -2,13 +2,12 @@ import traceback
 
 
 class OsuFileParser:
-    def __init__(self, file):
+    def __init__(self, path):
         self.parsed_headings = {"[General]", "[Metadata]"}
-
         self.data = {}
-        self.parse(file)
 
-        file.close()
+        with open(path, "r", encoding="utf8") as file:
+            self.parse(file)
 
     def parse(self, file):
         lines = file.readlines()

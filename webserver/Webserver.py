@@ -1,4 +1,6 @@
-from flask import Flask, send_file, render_template
+import json
+
+from flask import Flask, send_file, render_template, request, jsonify
 
 from App import App
 
@@ -10,21 +12,35 @@ class Webserver:
         self.register_routes()
 
     def register_routes(self):
-        self.webserver.route('/index')(self.index)
-        self.webserver.route('/get_mp3')(self.get_mp3)
-        self.webserver.route('/get_image')(self.get_image)
+        self.webserver.route('/')(self.home)
+        self.webserver.route('/api/get_media', methods=['POST', 'GET'])(self.get_media)
+        self.webserver.route('/api/get_songs', methods=['GET'])(self.get_songs)
 
-    def get_mp3(self):
-        # Logic to retrieve the MP3 file
-        mp3_path = "C:/Users/james/AppData/Local/osu!/Songs/1004468 Parry Gripp - Guinea Pig Bridge/audio.mp3"
-        return send_file(mp3_path, mimetype='audio/mpeg')
+    def get_media(self):
+        song_id = request.args.get('song_id')
 
-    def get_image(self):
-        # Logic to retrieve the image file
-        image_path = 'path_to_your_image_file.png'
-        return send_file(image_path, mimetype='image/png')
+        try:
+            song_id = int(song_id)
+        except:
+            return jsonify(error="Song ID not an int")
 
-    def index(self):
+        if song_id not in self.app.extractor.song_id_to_song:
+            return jsonify(error="Song ID not found")
+
+        media_type = request.args.get('type')
+
+        if media_type == "image":
+            return send_file(self.app.extractor.song_id_to_song[song_id].image_path, as_attachment=True)
+        elif media_type == "audio":
+            return send_file(self.app.extractor.song_id_to_song[song_id].mp3_path, as_attachment=True)
+        else:
+            return jsonify(error="Invalid type")
+    def get_songs(self):
+        songs = self.app.extractor.get_songs()
+        json_songs = [{"id": song_id, "name": song.name, "artist": song.artist} for song_id, song in songs.items()]
+        return jsonify(json_songs)
+
+    def home(self):
         return render_template('home.html')
 
 
