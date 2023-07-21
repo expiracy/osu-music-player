@@ -1,0 +1,28 @@
+.search-container {
+    border-radius: 20px;
+    background-color: #f1f1f1;
+    padding: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-right: 20px;
+}
+
+
+#searchField {
+    width: 100%;
+    flex: 1;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    font-size: 14px;
+}
+
+#searchButton {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+}
+
+#searchButton i {
+    font-size: 18px;
+}

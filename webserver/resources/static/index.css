@@ -1,0 +1,151 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.full-width-button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Define the width of the second row's first cell */
+.fixed-width-cell {
+    width: 192px;
+}
+
+.flex-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Align content to the bottom */
+    height: 100%;
+}
+
+/* Align items () to the bottom of the cell */
+.align-bottom {
+    vertical-align: bottom;
+}
+
+/* Style for the image and subtitle div */
+.playing-song {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px;
+}
+
+.playing-song img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+.playing-song h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.playing-song p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Search box style */
+.search-box {
+    display: flex;
+}
+
+.shadow {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+    width: 100%;
+    border-radius: 20px;
+    background-color: #F1F3F4;
+    padding: 10px;
+    border: none;
+    outline: none;
+}
+
+/* Search button style */
+.search-button {
+    width: auto;
+    padding: 10px 20px;
+    background-color: #ff58d2;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+/* Make the second row's second cell take up the remaining width and height */
+.song-box-height {
+    height: calc(100vh - 162px); /* 100vh - 162px (total height of other cells) */
+    overflow: hidden; /* Hide overflowing content */
+}
+
+.scrollable-box {
+    overflow-y: auto; /* Enable vertical scrolling */
+    height: 100%;
+}
+
+.song-div {
+    height: 50px;
+    background-color: #f0f0f0;
+    margin-bottom: 5px; /* Add spacing between the divs */
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.song-div img {
+    width: 38px;
+    height: 24px;
+    margin-right: 10px;
+}
+
+.song-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.song-info h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.song-info p {
+    margin: 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.audio-player {
+    width: 100%;
+}
+.song-div:hover {
+    background-color: #d3d3d3;
+    cursor: pointer;
+}

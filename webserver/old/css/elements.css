@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+audio {
+    width: 100%;
+}
+
+.bottom-table {
+    vertical-align: baseline;
+}
+
+.top-table {
+    vertical-align: top;
+}
+
+.main {
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+

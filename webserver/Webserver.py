@@ -12,41 +12,38 @@ class Webserver:
         self.register_routes()
 
     def register_routes(self):
-        self.webserver.route('/')(self.home)
+        self.webserver.route('/')(self.index)
         self.webserver.route('/api/get_media', methods=['POST', 'GET'])(self.get_media)
-        self.webserver.route('/api/get_songs', methods=['GET'])(self.get_songs)
+        self.webserver.route('/api/get_mp3s', methods=['GET'])(self.get_mp3s)
 
     def get_media(self):
-        song_id = request.args.get('song_id')
-
         try:
-            song_id = int(song_id)
-        except:
-            return jsonify(error="Song ID not an int")
+            song_id = int(request.args.get('song_id'))
+        except ValueError:
+            return "Song ID not an int"
 
-        if song_id not in self.app.extractor.song_id_to_song:
-            return jsonify(error="Song ID not found")
+        if song_id not in self.app.songs.song_id_to_song:
+            return "Song ID not found"
 
         media_type = request.args.get('type')
 
         if media_type == "image":
-            return send_file(self.app.extractor.song_id_to_song[song_id].image_path, as_attachment=True)
+            return send_file(self.app.songs.song_id_to_song[song_id].image_path, as_attachment=True)
         elif media_type == "audio":
-            return send_file(self.app.extractor.song_id_to_song[song_id].mp3_path, as_attachment=True)
+            return send_file(self.app.songs.song_id_to_song[song_id].mp3_path, as_attachment=True)
         else:
-            return jsonify(error="Invalid type")
-    def get_songs(self):
-        songs = self.app.extractor.get_songs()
-        json_songs = [{"id": song_id, "name": song.name, "artist": song.artist} for song_id, song in songs.items()]
-        return jsonify(json_songs)
+            return "Invalid media type"
 
-    def home(self):
-        return render_template('home.html')
+    def get_mp3s(self):
+        songs = self.app.songs.get_all()
+        return jsonify([{"id": song_id, "name": song.name, "artist": song.artist} for song_id, song in songs.items()])
 
-
+    def index(self):
+        return render_template('index.html')
 
     def run(self):
         self.webserver.run()
+
 
 if __name__ == '__main__':
     server = Webserver()

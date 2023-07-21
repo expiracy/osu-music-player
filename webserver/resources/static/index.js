@@ -1,10 +1,10 @@
-const playingSongName = document.getElementById("playing-song-name");
-const playingSongArtist = document.getElementById("playing-song-artist");
-const playingSongImage = document.getElementById("playing-song-image");
+const playingSongName = document.getElementById("playingSongName");
+const playingSongArtist = document.getElementById("playingSongArtist");
+const playingSongImage = document.getElementById("playingSongImage");
 const placeHolderImage = 'static/images/image-placeholder.jpg';
 
 function fetchSongsData() {
-    fetch(`/api/get_songs`)
+    fetch(`/api/get_mp3s`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Network response was not ok');
@@ -19,14 +19,51 @@ function fetchSongsData() {
             });
         })
 }
+/*
+<div className="song-div">
+    <img src="static/images/image-placeholder.jpg">
+        <div className="song-info">
+            <h4>Title</h4>
+            <p>Line 1 of text</p>
+        </div>
+</div>
+ */
 
 function addSongButton(song) {
+    let songButtonDiv = document.createElement('div');
+    songButtonDiv.className = "song-div";
+
+    let imageElement = document.createElement('img');
+    setImage(song.id, imageElement);
+
+    let songInfo = document.createElement('div');
+    songInfo.className = "song-info"
+
+    let name = document.createElement('h4');
+    name.textContent = song.name
+    let artist = document.createElement('p');
+    artist.textContent = song.artist
+
+    songInfo.appendChild(name);
+    songInfo.appendChild(artist);
+
+    songButtonDiv.appendChild(imageElement);
+    songButtonDiv.appendChild(songInfo);
+
+    songButtonDiv.addEventListener('click', () => {
+        playSong(song)
+    });
+
+    document.getElementById('songsBox').appendChild(songButtonDiv);
+}
+function addSongButton2(song) {
     let songButtonDiv = document.createElement('div');
     songButtonDiv.id = song.id;
     songButtonDiv.className = 'song-button';
 
     // Create the image element
     let imageElement = document.createElement('img');
+    imageElement.className = 'song-button-art'
     imageElement.alt = 'Album Art';
     imageElement.width = 38;
     imageElement.height = 24;
@@ -46,7 +83,7 @@ function addSongButton(song) {
     artistNameDiv.className = 'artist-name';
     artistNameDiv.textContent = song.artist;
 
-    // Append the elements to the appropriate parent elements
+    // Append the css to the appropriate parent css
     songInfoDiv.appendChild(songNameDiv);
     songInfoDiv.appendChild(artistNameDiv);
 
@@ -58,7 +95,7 @@ function addSongButton(song) {
     });
 
     // Append the main container div to the "container" element in the HTML
-    let containerElement = document.getElementById('songsList');
+    let containerElement = document.getElementById('songsBox');
     containerElement.appendChild(songButtonDiv);
 }
 
@@ -101,7 +138,7 @@ function playSong(song) {
             let songURL = URL.createObjectURL(songBlob);
 
             // Play the song using an audio element
-            let audioPlayer = document.getElementById("audio-player");
+            let audioPlayer = document.getElementById("audioPlayer");
 
             setImage(song.id, playingSongImage);
 
@@ -110,6 +147,8 @@ function playSong(song) {
             audioPlayer.play();
         })
         .catch(error => {
+            console.log(song.id)
+            console.log(error)
             console.error("Error fetching or processing the song:", error);
         });
 }
@@ -117,3 +156,10 @@ function playSong(song) {
 document.addEventListener("DOMContentLoaded", function() {
     fetchSongsData();
 });
+
+function search() {
+    let searchFieldContainer = document.getElementById("searchFieldContainer");
+
+    // Toggle the "hidden" class to show/hide the search field
+    searchFieldContainer.classList.toggle("hidden");
+}

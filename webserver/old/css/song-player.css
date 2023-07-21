@@ -1,0 +1,17 @@
+.album-art img {
+    width: 192px;
+    height: 120px;
+    object-fit: cover;
+}
+
+.player {
+}
+
+.player-box {
+    height: 250px;
+    width: 192px;
+    border-radius: 20px;
+    background-color: #f8f8f8;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}

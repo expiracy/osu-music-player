@@ -1,0 +1,36 @@
+.song-button {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #E0E0E0;
+    cursor: pointer;
+    padding-bottom: 15px;
+}
+
+.song-button:last-child {
+    border-bottom: none;
+}
+
+.song-button:hover {
+    background-color: #F0F0F0;
+}
+
+.song-info {
+    margin-top: 14px;
+    margin-left: 10px;
+}
+
+.song-name {
+    font-weight: bold;
+}
+
+.artist-name {
+    font-size: 14px;
+    color: #888888;
+}
+
+.song-button-art {
+    padding-top: 14px;
+    padding-left: 14px;
+}

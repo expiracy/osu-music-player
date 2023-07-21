@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Table Layout Example</title>
+    <link rel="stylesheet" href="static/index.css">
+    <link rel="icon" type="image/png" href="static/images/osu.png">
+
+</head>
+<body>
+    <table>
+        <tr>
+            <td colspan="2">
+                <div class="search-box">
+                    <input type="text" class="search-input shadow" placeholder="Search">
+                    <button class="full-width-button search-button shadow">Search</button>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td class="fixed-width-cell align-bottom">
+                <div class="playing-song">
+                    <img src="static/images/image-placeholder.jpg" alt="Image" id="playingSongImage">
+                    <h4 id="playingSongName">Song Name</h4>
+                    <p id="playingSongArtist">Artist</p>
+                </div>
+            </td>
+            <td class="flex-container song-box-height align-bottom">
+                <div class="scrollable-box" id="songsBox"></div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <audio class="audio-player" controls id="audioPlayer">
+                    <source src="" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </td>
+        </tr>
+    </table>
+
+<script src="static/index.js"></script>
+</body>
+</html>

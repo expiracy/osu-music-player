@@ -1,7 +1,7 @@
 class Song:
-    def __init__(self, artist="", name="", mp3_path="", image_path=""):
-        self.artist = artist
+    def __init__(self, name="", artist="", mp3_path="", image_path=""):
         self.name = name
+        self.artist = artist
         self.mp3_path = mp3_path
         self.image_path = image_path
 

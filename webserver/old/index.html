@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="HTML">
+<head>
+    <title>osu! Music Player</title>
+
+    <link rel="stylesheet" href="css/elements.css">
+    <link rel="stylesheet" href="css/song-button.css">
+    <link rel="stylesheet" href="css/search-box.css">
+    <link rel="stylesheet" href="css/song-box.css">
+    <link rel="stylesheet" href="css/song-player.css">
+
+    <link rel="icon" type="image/png" href="../resources/static/images/osu.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <main>
+        <div class="main">
+            <table>
+                <tr>
+                    <div class="search-container">
+                        <input type="text" id="searchField" placeholder="Search...">
+                        <button type="submit" id="searchButton" onclick="search()">
+                        <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="player-box">
+                            <div class="album-art">
+                                <img src="../resources/static/images/image-placeholder.jpg" id="playing-song-image" alt="image">
+                            </div>
+
+                            <div class="song-info">
+                                <h3 id="playing-song-name">Song Title</h3>
+                                <p id="playing-song-artist">Artist Name</p>
+                            </div>
+                        </div>
+
+                    </td>
+
+                    <td>
+                        <div class="songs-box songs-box-scroll" id="songsList"></div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <audio controls id="audio-player" class="bottom-table">
+                            <source src="" type="audio/mp3" id="audio-source">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </td>
+
+                </tr>
+            </table>
+
+
+        </div>
+    </main>
+
+
+    <script src="../resources/static/index.js"></script>
+
+</body>
+</html>
