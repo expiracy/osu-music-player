@@ -3,6 +3,7 @@ import json
 from flask import Flask, send_file, render_template, request, jsonify
 
 from App import App
+from music.Songs import Songs
 
 
 class Webserver:
@@ -15,6 +16,7 @@ class Webserver:
         self.webserver.route('/')(self.index)
         self.webserver.route('/api/get_media', methods=['POST', 'GET'])(self.get_media)
         self.webserver.route('/api/get_mp3s', methods=['GET'])(self.get_mp3s)
+        self.webserver.route('/api/search', methods=['POST', 'GET'])(self.search)
 
     def get_media(self):
         try:
@@ -36,7 +38,12 @@ class Webserver:
 
     def get_mp3s(self):
         songs = self.app.songs.get_all()
-        return jsonify([{"id": song_id, "name": song.name, "artist": song.artist} for song_id, song in songs.items()])
+        return Songs.jsonify_songs(songs)
+
+    def search(self):
+        substring = str(request.args.get('substring'))
+        songs = self.app.songs.search(substring)
+        return Songs.jsonify_songs(songs)
 
     def index(self):
         return render_template('index.html')

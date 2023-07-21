@@ -30,10 +30,13 @@ td {
     width: 192px;
 }
 
-.flex-container {
+.side-box {
+
+}
+
+.song-box {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end; /* Align content to the bottom */
     height: 100%;
 }
 
@@ -51,8 +54,8 @@ td {
 }
 
 .playing-song img {
-    max-width: 100%;
-    height: auto;
+    width: 192px;
+    height: 120px;
     margin-bottom: 10px;
 }
 
@@ -68,7 +71,6 @@ td {
     color: #555;
 }
 
-/* Search box style */
 .search-box {
     display: flex;
 }
@@ -90,12 +92,16 @@ td {
 .search-button {
     width: auto;
     padding: 10px 20px;
-    background-color: #ff58d2;
-    color: #ffffff;
+    background-color: #f0f0f0;
+    color: #000000;
     border: none;
     border-radius: 20px;
     cursor: pointer;
     margin-left: 10px;
+}
+
+.search-button:hover {
+    background-color: #d3d3d3;
 }
 
 /* Make the second row's second cell take up the remaining width and height */

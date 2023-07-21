@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Table Layout Example</title>
+    <title>osu! Music Player</title>
     <link rel="stylesheet" href="static/index.css">
     <link rel="icon" type="image/png" href="static/images/osu.png">
 
@@ -9,10 +9,10 @@
 <body>
     <table>
         <tr>
-            <td colspan="2">
+            <td colspan="3">
                 <div class="search-box">
-                    <input type="text" class="search-input shadow" placeholder="Search">
-                    <button class="full-width-button search-button shadow">Search</button>
+                    <input type="text" class="search-input shadow" placeholder="Search" id="searchInput">
+                    <button class="full-width-button search-button shadow" onclick="search()">Search</button>
                 </div>
             </td>
         </tr>
@@ -24,12 +24,25 @@
                     <p id="playingSongArtist">Artist</p>
                 </div>
             </td>
-            <td class="flex-container song-box-height align-bottom">
+
+            <td class="song-box song-box-height align-bottom">
                 <div class="scrollable-box" id="songsBox"></div>
+            </td>
+
+            <td class="side-box song-box-height align-bottom">
+                <div class="scrollable-box" id="sideBox">
+                    <div class="song-div">
+                        <img src="static/images/image-placeholder.jpg">
+                        <div class="song-info">
+                            <h4>Title</h4>
+                            <p>Artist</p>
+                        </div>
+                    </div>
+                </div>
             </td>
         </tr>
         <tr>
-            <td colspan="2">
+            <td colspan="3">
                 <audio class="audio-player" controls id="audioPlayer">
                     <source src="" type="audio/mpeg">
                     Your browser does not support the audio element.
