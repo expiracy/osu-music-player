@@ -10,9 +10,8 @@
     <table>
         <tr>
             <td class="fixed-width-cell align-top">
-                <div class="search-box">
-                    <input type="text" class="search-input shadow" placeholder="Search..." id="searchInput">
-                    <button class="full-width-button search-button shadow" onclick="search()">⌕</button>
+                <div class="flex">
+                    <input type="text" class="search-input shadow" id="searchInput" placeholder="Search (ENTER to submit)">
                 </div>
 
                 <div class="side-buttons">
@@ -21,7 +20,9 @@
                 </div>
 
                 <div class="playing-song">
-                    <img src="static/images/image-placeholder.jpg" alt="Image" id="playingSongImage" class="shadow">
+                    <a href="" id="playingLink" target=”_blank”>
+                        <img src="static/images/image-placeholder.jpg" alt="Image" id="playingSongImage" class="shadow">
+                    </a>
                     <h4 id="playingSongName">Song Name</h4>
                     <p id="playingSongArtist">Artist</p>
                 </div>
@@ -47,10 +48,15 @@
         </tr>
         <tr>
             <td colspan="2">
-                <audio class="audio-player" controls id="audioPlayer">
-                    <source src="" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
+                <div class="flex">
+                    <button class="full-width-button icon-button shadow" onclick="loop()" id="loopButton">↻</button>
+                    <button class="full-width-button icon-button shadow" onclick="playNext()">➝</button>
+
+                    <audio class="audio-player" controls id="audioPlayer">
+                        <source src="" type="audio/mpeg">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
             </td>
         </tr>
     </table>

@@ -1,6 +1,3 @@
-from flask import jsonify
-
-
 class Playlist:
     def __init__(self, songs=None):
         if songs:
@@ -19,5 +16,3 @@ class Playlist:
             self.songs.remove(song)
         except ValueError as e:
             print(e)
-
-

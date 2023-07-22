@@ -15,9 +15,4 @@ class Queue(Playlist):
         self.songs.append(song)
 
     def dequeue(self):
-        if len(self.songs) == 0:
-            return Song()
-
         return self.songs.pop(0)
-
-

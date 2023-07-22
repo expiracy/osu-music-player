@@ -1,9 +1,9 @@
 from flask import jsonify
 
+from setup.SongDataExtractor import SongDataExtractor
 from song.data.Playlist import Playlist
 from song.data.Queue import Queue
 from song.data.SongLibrary import SongLibrary
-from setup.SongDataExtractor import SongDataExtractor
 
 
 class SongManager:
@@ -57,11 +57,3 @@ class SongManager:
     @staticmethod
     def get_json(songs):
         return jsonify([{"id": song.id, "name": song.name, "artist": song.artist} for song in songs])
-
-
-
-
-
-
-
-

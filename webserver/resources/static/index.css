@@ -80,7 +80,7 @@ h4 {
 }
 
 
-.search-box {
+.flex {
     display: flex;
 }
 
@@ -92,7 +92,7 @@ h4 {
     width: 100%;
     border-radius: 20px;
     background-color: #F1F3F4;
-    padding: 5px 10px;
+    padding: 10px;
     border: none;
     outline: none;
 }
@@ -109,7 +109,7 @@ h4 {
     cursor: pointer;
 }
 /* Search button style */
-.search-button {
+.icon-button {
     font-weight: bold;
     width: auto;
     padding: 10px;
@@ -119,9 +119,10 @@ h4 {
     border-radius: 20px;
     cursor: pointer;
     margin-left: 10px;
+
 }
 
-.search-button:hover {
+.icon-button:hover {
     background-color: #d3d3d3;
 }
 
@@ -167,6 +168,7 @@ h4 {
 
 .audio-player {
     width: 100%;
+    margin-left: 10px;
 }
 .song-div:hover {
     background-color: #d3d3d3;

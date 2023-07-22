@@ -1,6 +1,7 @@
-from song.data.Song import Song
-from setup.OsuFileParser import OsuFileParser
 import os
+
+from setup.OsuFileParser import OsuFileParser
+from song.data.Song import Song
 
 
 class SongDataExtractor:
@@ -26,7 +27,6 @@ class SongDataExtractor:
                 if (lower_file_name.endswith(".jpg")
                         or lower_file_name.endswith("png")
                         or lower_file_name.endswith(".jpeg")):
-
                     song.image_path = f"{path}/{song_folder}/{file_name}"
 
                 # Extract remaining metadata from an .osu file if not already
@@ -45,4 +45,3 @@ class SongDataExtractor:
                 song.image_path = f"../webserver/resources/static/images/image-placeholder.jpg"
 
         return self
-

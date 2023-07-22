@@ -1,4 +1,4 @@
-from flask import Flask, send_file, render_template, request, jsonify
+from flask import Flask, send_file, render_template, request
 
 from song.SongManager import SongManager
 
@@ -78,10 +78,8 @@ class Webserver:
             return "Index not an int"
 
         playlist_name = str(request.args.get('playlist_name'))
-        print(playlist_name)
 
         self.song_manager.remove_index_from_playlist(playlist_name, index)
-        print(self.song_manager.get_json_playlist(playlist_name))
 
         return self.song_manager.get_json_playlist(playlist_name)
 

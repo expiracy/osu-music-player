@@ -1,93 +1,111 @@
 const placeHolderImage = 'static/images/image-placeholder.jpg';
 var queueSize = 0;
 var currentPlaylist = "library";
+var isLooped = false;
+
+function loop() {
+    isLooped = !isLooped
+
+    let loopButton = document.getElementById("loopButton");
+    let audioPlayer = document.getElementById("audioPlayer");
+
+    if (isLooped) {
+        loopButton.classList.add("clicked");
+        audioPlayer.loop = true;
+    }
+    else {
+        loopButton.classList.remove("clicked");
+        audioPlayer.loop = false;
+    }
+}
 
 function addToQueue(song) {
     fetch(`/api/add_song?song_id=${song.id}&playlist_name=queue`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(data => {
-        queueSize = JSON.parse(data);
-    })
-    .catch(error => {
-        console.error(error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            queueSize = JSON.parse(data);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function playNextInQueue() {
     fetch(`/api/dequeue`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(data => {
-        queueSize -= 1;
-        let song = JSON.parse(data);
-        playSong(song);
-    })
-    .catch(error => {
-        console.error(error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            queueSize -= 1;
+            let song = JSON.parse(data);
+            playSong(song);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function removeFromQueue(songIndex) {
     fetch(`/api/remove_song?playlist_name=queue&method=index&index=${songIndex}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(data => {
-        let songsData = JSON.parse(data);
-        setSongsBox(songsData);
-    })
-    .catch(error => {
-        console.error(error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            queueSize -= 1;
+            let songsData = JSON.parse(data);
+            setSongsBox(songsData);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function fetchPlaylist(playlist) {
     currentPlaylist = playlist;
     fetch(`/api/get_playlist?name=${playlist}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(data => {
-        let songsData = JSON.parse(data);
-        setSongsBox(songsData);
-    })
-    .catch(error => {
-        console.error(error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            let songsData = JSON.parse(data);
+            setSongsBox(songsData);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function fetchSongLibrary() {
     currentPlaylist = "library";
-    //fetch(`/api/get_mp3s?alphabetical=${alphabetical}`)
+
     fetch(`/api/get_library`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(data => {
-        let songsData = JSON.parse(data);
-        setSongsBox(songsData);
-    })
-    .catch(error => {
-        console.error(error);
-    });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            let songsData = JSON.parse(data);
+            setSongsBox(songsData);
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function setSongsBox(songsData) {
@@ -150,21 +168,21 @@ function addSongButton(song, element, songIndex) {
 
 function setImage(songId, element) {
     fetch(`/api/get_media?song_id=${songId}&type=image`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.blob();
-    })
-    .then(data => {
-        let imageBlob = new Blob([data], { type: 'image/jpeg' });
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
+        .then(data => {
+            let imageBlob = new Blob([data], {type: 'image/jpeg'});
 
-        element.src = URL.createObjectURL(imageBlob);
-    })
-    .catch(error => {
-        console.error(error);
-        element.src = placeHolderImage;
-    });
+            element.src = URL.createObjectURL(imageBlob);
+        })
+        .catch(error => {
+            console.error(error);
+            element.src = placeHolderImage;
+        });
 }
 
 function playSong(song) {
@@ -172,28 +190,30 @@ function playSong(song) {
     document.getElementById("playingSongArtist").innerText = song.artist;
     setImage(song.id, document.getElementById("playingSongImage"))
 
+    document.getElementById("playingLink").setAttribute("href", "https://osu.ppy.sh/beatmapsets/" + song.id + "#osu")
+
     // Call the API to get the song URL
     fetch(`/api/get_media?song_id=${song.id}&type=audio`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.blob();
-    })
-    .then(data => {
-        // Create an object URL from the Blob
-        let songBlob = new Blob([data], { type: 'audio/mpeg' });
-        let songURL = URL.createObjectURL(songBlob);
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.blob();
+        })
+        .then(data => {
+            // Create an object URL from the Blob
+            let songBlob = new Blob([data], {type: 'audio/mpeg'});
+            let songURL = URL.createObjectURL(songBlob);
 
-        // Play the song using an audio element
-        let audioPlayer = document.getElementById("audioPlayer");
-        audioPlayer.src = songURL;
-        audioPlayer.load();
-        audioPlayer.play();
-    })
-    .catch(error => {
-        console.error(error);
-    });
+            // Play the song using an audio element
+            let audioPlayer = document.getElementById("audioPlayer");
+            audioPlayer.src = songURL;
+            audioPlayer.load();
+            audioPlayer.play();
+        })
+        .catch(error => {
+            console.error(error);
+        });
 }
 
 function search() {
@@ -203,40 +223,53 @@ function search() {
     searchInput.value = "";
 
     fetch(`/api/search?substring=${substring}`)
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.text();
-    })
-    .then(data => {
-        let songsData = JSON.parse(data);
-        console.log(songsData);
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            let songsData = JSON.parse(data);
+            console.log(songsData);
 
-        if (songsData === []) {
-            location.reload();
-            return
-        }
+            if (songsData === []) {
+                location.reload();
+                return
+            }
 
-        let songsBox = document.getElementById('songsBox');
-        songsBox.innerHTML = "";
+            let songsBox = document.getElementById('songsBox');
+            songsBox.innerHTML = "";
 
-        songsData.forEach(song => {
-            addSongButton(song, songsBox)
+            songsData.forEach(song => {
+                addSongButton(song, songsBox)
+            });
+        })
+        .catch(error => {
+            console.error(error);
         });
-    })
-    .catch(error => {
-        console.error(error);
-    });
 }
 
-document.getElementById('audioPlayer').addEventListener('ended', () => {
+function playNext() {
     if (queueSize === 0) return;
     if (currentPlaylist === "queue") fetchPlaylist("queue");
     playNextInQueue();
+}
+
+
+document.getElementById('audioPlayer').addEventListener('ended', () => {
+    playNext()
 });
 
 document.addEventListener(
     "DOMContentLoaded",
-    function() {fetchSongLibrary();}
+     () => {
+        fetchSongLibrary();
+    }
+);
+
+document.getElementById("searchInput").addEventListener('keypress',
+    () => {
+        if (event.key === "Enter") search();
+    }
 );
