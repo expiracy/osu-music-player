@@ -1,5 +1,5 @@
-from music.Song import Song
-from music.OsuFileParser import OsuFileParser
+from song.data.Song import Song
+from setup.OsuFileParser import OsuFileParser
 import os
 
 
@@ -31,14 +31,14 @@ class SongDataExtractor:
 
                 # Extract remaining metadata from an .osu file if not already
                 if file_name.endswith(".osu"):
-                    song_id = int(song_folder.split(' ')[0])
                     beatmap_data = OsuFileParser(f"{path}/{song_folder}/{file_name}").data
 
+                    song.id = int(song_folder.split(' ')[0])
                     song.name = beatmap_data["Title"]
                     song.artist = beatmap_data["Artist"]
                     song.mp3_path = f"{path}/{song_folder}/{beatmap_data['AudioFilename']}"
 
-                    self.songs.add(song_id, song)
+                    self.songs.add(song)
 
             # When no background image is found, use the placeholder image
             if not song.image_path:

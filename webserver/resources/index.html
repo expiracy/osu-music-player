@@ -9,40 +9,44 @@
 <body>
     <table>
         <tr>
-            <td colspan="3">
+            <td class="fixed-width-cell align-top">
                 <div class="search-box">
-                    <input type="text" class="search-input shadow" placeholder="Search" id="searchInput">
-                    <button class="full-width-button search-button shadow" onclick="search()">Search</button>
+                    <input type="text" class="search-input shadow" placeholder="Search..." id="searchInput">
+                    <button class="full-width-button search-button shadow" onclick="search()">⌕</button>
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td class="fixed-width-cell align-bottom">
+
+                <div class="side-buttons">
+                    <button class="side-button shadow" onclick="fetchSongLibrary()">Library</button>
+                    <button class="side-button shadow" onclick="fetchPlaylist('queue')">Queue</button>
+                </div>
+
                 <div class="playing-song">
-                    <img src="static/images/image-placeholder.jpg" alt="Image" id="playingSongImage">
+                    <img src="static/images/image-placeholder.jpg" alt="Image" id="playingSongImage" class="shadow">
                     <h4 id="playingSongName">Song Name</h4>
                     <p id="playingSongArtist">Artist</p>
                 </div>
+
+
             </td>
 
             <td class="song-box song-box-height align-bottom">
-                <div class="scrollable-box" id="songsBox"></div>
-            </td>
-
-            <td class="side-box song-box-height align-bottom">
-                <div class="scrollable-box" id="sideBox">
+                <div class="scrollable-box" id="songsBox">
                     <div class="song-div">
-                        <img src="static/images/image-placeholder.jpg">
                         <div class="song-info">
                             <h4>Title</h4>
                             <p>Artist</p>
                         </div>
+
+                        <div class="action-div">
+                            <h4>Queue</h4>
+                        </div>
+
                     </div>
                 </div>
             </td>
         </tr>
         <tr>
-            <td colspan="3">
+            <td colspan="2">
                 <audio class="audio-player" controls id="audioPlayer">
                     <source src="" type="audio/mpeg">
                     Your browser does not support the audio element.

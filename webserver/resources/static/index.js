@@ -1,60 +1,147 @@
-const playingSongName = document.getElementById("playingSongName");
-const playingSongArtist = document.getElementById("playingSongArtist");
-const playingSongImage = document.getElementById("playingSongImage");
 const placeHolderImage = 'static/images/image-placeholder.jpg';
+var queueSize = 0;
+var currentPlaylist = "library";
 
-var sideBoxSongs = [];
-var mainBoxSongs = [];
-
-function fetchSongsData() {
-    fetch(`/api/get_mp3s`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            let songsData = JSON.parse(data);
-
-            songsData.forEach(song => {
-                addSongButton(song, document.getElementById('songsBox'))
-            });
-        })
+function addToQueue(song) {
+    fetch(`/api/add_song?song_id=${song.id}&playlist_name=queue`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        queueSize = JSON.parse(data);
+    })
+    .catch(error => {
+        console.error(error);
+    });
 }
 
-/*
-<div className="song-div">
-    <img src="static/images/image-placeholder.jpg">
-        <div className="song-info">
-            <h4>Title</h4>
-            <p>Line 1 of text</p>
-        </div>
-</div>
- */
+function playNextInQueue() {
+    fetch(`/api/dequeue`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        queueSize -= 1;
+        let song = JSON.parse(data);
+        playSong(song);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
 
-function addSongButton(song, element) {
+function removeFromQueue(songIndex) {
+    fetch(`/api/remove_song?playlist_name=queue&method=index&index=${songIndex}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        let songsData = JSON.parse(data);
+        setSongsBox(songsData);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
+
+function fetchPlaylist(playlist) {
+    currentPlaylist = playlist;
+    fetch(`/api/get_playlist?name=${playlist}`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        let songsData = JSON.parse(data);
+        setSongsBox(songsData);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
+
+function fetchSongLibrary() {
+    currentPlaylist = "library";
+    //fetch(`/api/get_mp3s?alphabetical=${alphabetical}`)
+    fetch(`/api/get_library`)
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        let songsData = JSON.parse(data);
+        setSongsBox(songsData);
+    })
+    .catch(error => {
+        console.error(error);
+    });
+}
+
+function setSongsBox(songsData) {
+    let songsBox = document.getElementById('songsBox');
+    songsBox.innerHTML = "";
+
+    let songIndex = -1;
+
+    songsData.forEach(song => {
+        addSongButton(song, songsBox, songIndex + 1)
+    });
+}
+
+function addSongButton(song, element, songIndex) {
     let songButtonDiv = document.createElement('div');
-    songButtonDiv.className = "song-div";
-
-    let imageElement = document.createElement('img');
-    setImage(song.id, imageElement);
+    songButtonDiv.classList.add("song-div");
+    songButtonDiv.classList.add("shadow");
 
     let songInfo = document.createElement('div');
     songInfo.className = "song-info"
 
     let name = document.createElement('h4');
     name.textContent = song.name
+
     let artist = document.createElement('p');
     artist.textContent = song.artist
 
     songInfo.appendChild(name);
     songInfo.appendChild(artist);
 
-    songButtonDiv.appendChild(imageElement);
-    songButtonDiv.appendChild(songInfo);
+    let queueDiv = document.createElement('div');
+    let queueButton = document.createElement('h4')
+    queueDiv.appendChild(queueButton);
 
-    songButtonDiv.addEventListener('click', () => {
+    queueDiv.className = "action-div";
+
+    if (currentPlaylist !== "queue") {
+        queueButton.innerText = "Queue";
+
+        queueButton.addEventListener('click', () => {
+            addToQueue(song);
+        });
+    } else {
+        queueButton.innerText = "Dequeue";
+
+        queueButton.addEventListener('click', () => {
+            removeFromQueue(songIndex);
+        });
+    }
+
+    songButtonDiv.appendChild(songInfo);
+    songButtonDiv.appendChild(queueDiv);
+
+    songButtonDiv.addEventListener('dblclick', () => {
         playSong(song)
     });
 
@@ -63,87 +150,93 @@ function addSongButton(song, element) {
 
 function setImage(songId, element) {
     fetch(`/api/get_media?song_id=${songId}&type=image`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.blob();
-        })
-        .then(data => {
-            let imageBlob = new Blob([data], { type: 'image/jpeg' });
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.blob();
+    })
+    .then(data => {
+        let imageBlob = new Blob([data], { type: 'image/jpeg' });
 
-            element.src = URL.createObjectURL(imageBlob);
-        })
-        .catch(error => {
-            console.log(songId)
-            console.log(error)
-            element.src = placeHolderImage;
-        });
+        element.src = URL.createObjectURL(imageBlob);
+    })
+    .catch(error => {
+        console.error(error);
+        element.src = placeHolderImage;
+    });
 }
 
 function playSong(song) {
-    playingSongName.innerText = song.name;
-    playingSongArtist.innerText = song.artist;
-    setImage(song.id, playingSongImage)
+    document.getElementById("playingSongName").innerText = song.name;
+    document.getElementById("playingSongArtist").innerText = song.artist;
+    setImage(song.id, document.getElementById("playingSongImage"))
 
     // Call the API to get the song URL
     fetch(`/api/get_media?song_id=${song.id}&type=audio`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.blob();
-        })
-        .then(data => {
-            // Create an object URL from the Blob
-            let songBlob = new Blob([data], { type: 'audio/mpeg' });
-            let songURL = URL.createObjectURL(songBlob);
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.blob();
+    })
+    .then(data => {
+        // Create an object URL from the Blob
+        let songBlob = new Blob([data], { type: 'audio/mpeg' });
+        let songURL = URL.createObjectURL(songBlob);
 
-            // Play the song using an audio element
-            let audioPlayer = document.getElementById("audioPlayer");
-
-            setImage(song.id, playingSongImage);
-
-            audioPlayer.src = songURL;
-            audioPlayer.load();
-            audioPlayer.play();
-        })
-        .catch(error => {
-            console.log(song.id)
-            console.log(error)
-            console.error("Error fetching or processing the song:", error);
-        });
+        // Play the song using an audio element
+        let audioPlayer = document.getElementById("audioPlayer");
+        audioPlayer.src = songURL;
+        audioPlayer.load();
+        audioPlayer.play();
+    })
+    .catch(error => {
+        console.error(error);
+    });
 }
-
-document.addEventListener("DOMContentLoaded", function() {
-    fetchSongsData();
-});
 
 function search() {
-    let substring = document.getElementById("searchInput").value;
+    let searchInput = document.getElementById("searchInput");
+    let substring = searchInput.value;
+
+    searchInput.value = "";
 
     fetch(`/api/search?substring=${substring}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            let songsData = JSON.parse(data);
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        return response.text();
+    })
+    .then(data => {
+        let songsData = JSON.parse(data);
+        console.log(songsData);
 
-            let sideBox = document.getElementById('sideBox');
-            sideBox.innerHTML = "";
+        if (songsData === []) {
+            location.reload();
+            return
+        }
 
-            console.log(songsData)
+        let songsBox = document.getElementById('songsBox');
+        songsBox.innerHTML = "";
 
-            songsData.forEach(song => {
-                addSongButton(song, sideBox)
-            });
-        })
-        .catch(error => {
-                console.log(song.id)
-                console.log(error)
-                console.error("Error fetching or processing the song:", error);
-            });
+        songsData.forEach(song => {
+            addSongButton(song, songsBox)
+        });
+    })
+    .catch(error => {
+        console.error(error);
+    });
 }
+
+document.getElementById('audioPlayer').addEventListener('ended', () => {
+    if (queueSize === 0) return;
+    if (currentPlaylist === "queue") fetchPlaylist("queue");
+    playNextInQueue();
+});
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function() {fetchSongLibrary();}
+);

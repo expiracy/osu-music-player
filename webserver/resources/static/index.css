@@ -1,4 +1,5 @@
 body {
+    user-select: none;
     margin: 0;
     padding: 0;
     font-family: Arial, sans-serif;
@@ -12,6 +13,12 @@ table {
 td {
     padding: 10px;
     border: 1px solid #ccc;
+}
+
+h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .full-width-button {
@@ -30,32 +37,33 @@ td {
     width: 192px;
 }
 
-.side-box {
-
-}
-
 .song-box {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
-/* Align items () to the bottom of the cell */
+.align-top {
+    vertical-align: top;
+}
+
 .align-bottom {
     vertical-align: bottom;
 }
+
 
 /* Style for the image and subtitle div */
 .playing-song {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 10px;
 }
 
 .playing-song img {
     width: 192px;
     height: 120px;
+    padding-top: 10px;
+    border-radius: 20px;
     margin-bottom: 10px;
 }
 
@@ -71,6 +79,7 @@ td {
     color: #555;
 }
 
+
 .search-box {
     display: flex;
 }
@@ -83,17 +92,29 @@ td {
     width: 100%;
     border-radius: 20px;
     background-color: #F1F3F4;
-    padding: 10px;
+    padding: 5px 10px;
     border: none;
     outline: none;
 }
 
+.side-button {
+    margin-top: 10px;
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #F1F3F4;
+    color: #2d2d2d;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
 /* Search button style */
 .search-button {
+    font-weight: bold;
     width: auto;
-    padding: 10px 20px;
+    padding: 10px;
     background-color: #f0f0f0;
-    color: #000000;
+    color: #2d2d2d;
     border: none;
     border-radius: 20px;
     cursor: pointer;
@@ -106,7 +127,7 @@ td {
 
 /* Make the second row's second cell take up the remaining width and height */
 .song-box-height {
-    height: calc(100vh - 162px); /* 100vh - 162px (total height of other cells) */
+    height: calc(100vh - 104px); /* 100vh - 162px/104px (total height of other cells) */
     overflow: hidden; /* Hide overflowing content */
 }
 
@@ -116,9 +137,10 @@ td {
 }
 
 .song-div {
+    justify-content: space-between;
     height: 50px;
     background-color: #f0f0f0;
-    margin-bottom: 5px; /* Add spacing between the divs */
+    margin-bottom: 8px; /* Add spacing between the divs */
     display: flex;
     align-items: center;
     padding: 10px;
@@ -134,12 +156,7 @@ td {
 .song-info {
     display: flex;
     flex-direction: column;
-}
-
-.song-info h4 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: bold;
+    float: left;
 }
 
 .song-info p {
@@ -154,4 +171,22 @@ td {
 .song-div:hover {
     background-color: #d3d3d3;
     cursor: pointer;
+}
+
+.clicked {
+    background-color: #d3d3d3;
+}
+
+.side-button:hover {
+    background-color: #d3d3d3;
+    cursor: pointer;
+}
+
+.action-div {
+    float: right;
+    text-align: right;
+}
+
+.action-div:hover h4 {
+    text-decoration: underline;
 }
