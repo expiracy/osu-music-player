@@ -5,59 +5,55 @@ class OsuPathManager:
     def __init__(self):
         self.osu_path = ""
 
-        if not self.is_path_saved():
-            self.ask()
-            self.save()
+        if self.is_valid_path_saved():
+            self.osu_path = self.get_saved_path()
         else:
-            self.osu_path_save_path()
+            self.osu_path = self.ask_for_path()
+            self.save_path(self.osu_path)
 
-
-    def is_path_saved(self):
+    def is_valid_path_saved(self):
         try:
-            with open(self.get_saved_osu_path(), "r+") as file:
+            with open(self.get_txt_path(), "r+") as file:
                 lines = file.readlines()
 
-                if len(lines) != 1:
+                if len(lines) < 1:
                     return False
 
-                self.osu_path = lines[0]
-
-                if not self.validate():
+                if not self.validate_path(lines[0]):
                     return False
 
                 return True
-        except IOError as e:
+
+        except IOError:
             return False
 
-    def osu_path_save_path(self):
-        with open(self.get_saved_osu_path(), "r") as file:
+    def get_saved_path(self):
+        with open(self.get_txt_path(), "r") as file:
             return file.readline()
 
-    def get_saved_osu_path(self):
-        return f"{os.getcwd()}\\osu_path.txt"
+    def get_txt_path(self):
+        return f"{os.getcwd()}\\osu_music_data.txt"
 
-    def validate(self):
+    def validate_path(self, osu_path):
         try:
-            return "Songs" in os.listdir(self.osu_path)
+            return "Songs" in os.listdir(osu_path)
         except IOError as e:
             print(e)
 
-    def save(self):
-        with open(self.get_saved_osu_path(), "w") as file:
+    def save_path(self, osu_path):
+        with open(self.get_txt_path(), "w") as file:
             file.truncate(0)
-            file.write(self.osu_path)
+            file.write(osu_path)
 
-    def ask(self):
-        print("[SETUP]")
-
-        self.osu_path = input("Enter exact file path to osu folder (eg C:/Users/{YOURUSERNAME}/AppData/Local/osu!)\n>").strip("/").strip("\\")
+    def ask_for_path(self):
+        osu_path = input("Enter exact file path to osu folder (eg C:/Users/{YOUR-USERNAME}/AppData/Local/osu!)\n>").strip("/").strip("\\")
 
         try:
-            if not self.validate():
-                self.ask()
-
-            return
+            if not self.validate_path(osu_path):
+                return self.ask_for_path()
 
         except IOError:
-            self.ask()
+            return self.ask_for_path()
+
+        return osu_path
 

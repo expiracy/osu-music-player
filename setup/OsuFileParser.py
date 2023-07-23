@@ -1,6 +1,3 @@
-import traceback
-
-
 class OsuFileParser:
     def __init__(self, path):
         self.parsed_headings = {"[General]", "[Metadata]"}
@@ -31,8 +28,8 @@ class OsuFileParser:
 
             try:
                 split_line = line.split(':')
-                self.data[split_line[0]] = split_line[1].strip()
+                self.data[split_line[0]] = ':'.join(split_line[1:]).strip()
 
-            except:
+            except Exception as e:
                 print(line)
-                traceback.print_exc()
+                print(e)
