@@ -1,4 +1,4 @@
-# Web-Based Osu! Music Application
+# Web-Based osu! Music Player
 
 ![Osu! Music App](https://cdn.discordapp.com/attachments/846480414217338913/1132668169736159272/image.png)
 
