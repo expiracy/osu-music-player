@@ -10,10 +10,10 @@ the need for any additional software installation.
 
 ## Features
 
-- Browse and access your local Osu! song files from the comfort of your web browser.
-- Play Osu! songs directly in the browser with the basic features of a music player.
-- View detailed information about each beatmap by clicking on the playing song image.
-- Search for specific songs or artists to quickly find your favorite songs.
+- Browse and access your local osu! song files via any web browser.
+- Play osu! songs directly in the browser with all the expected basic features of a music player.
+- View the beatmap listing by clicking the playing song image.
+- Search by song name, artist or tag.
 
 ## Setup
 
@@ -24,4 +24,6 @@ Before using the Web-Based Osu! Music Application, you need to follow these setu
 
 After this, open a browser and navigate to:
 http://localhost:727
+
+## Enjoy!
 
