@@ -12,8 +12,7 @@ function loop() {
     if (isLooped) {
         loopButton.classList.add("clicked");
         audioPlayer.loop = true;
-    }
-    else {
+    } else {
         loopButton.classList.remove("clicked");
         audioPlayer.loop = false;
     }
@@ -263,7 +262,7 @@ document.getElementById('audioPlayer').addEventListener('ended', () => {
 
 document.addEventListener(
     "DOMContentLoaded",
-     () => {
+    () => {
         fetchSongLibrary();
     }
 );

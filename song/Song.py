@@ -8,6 +8,7 @@ class Song:
         self.artist = artist
         self.mp3_path = mp3_path
         self.image_path = image_path
+        self.tags = []
 
     def get_json(self):
         return jsonify({"id": self.id, "name": self.name, "artist": self.artist})

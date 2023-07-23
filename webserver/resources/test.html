@@ -144,56 +144,56 @@
     </style>
 </head>
 <body>
-    <table>
-        <tr>
-            <td colspan="3">
-                <div class="search-box">
-                    <input type="text" class="search-input shadow" placeholder="Search">
-                    <button class="full-width-button search-button shadow">Search</button>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td class="fixed-width-cell align-bottom">
-                <div class="player-art">
+<table>
+    <tr>
+        <td colspan="3">
+            <div class="search-box">
+                <input class="search-input shadow" placeholder="Search" type="text">
+                <button class="full-width-button search-button shadow">Search</button>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td class="fixed-width-cell align-bottom">
+            <div class="player-art">
+                <img src="static/images/image-placeholder.jpg">
+                <div>Subtitle</div>
+            </div>
+        </td>
+        <td class="flex-container song-box-height align-bottom" id="songBox">
+            <div class="scrollable-box">
+
+                <div class="song-div">
                     <img src="static/images/image-placeholder.jpg">
-                    <div>Subtitle</div>
-                </div>
-            </td>
-            <td class="flex-container song-box-height align-bottom" id="songBox">
-                <div class="scrollable-box">
-
-                    <div class="song-div">
-                        <img src="static/images/image-placeholder.jpg">
-                        <div class="song-info">
-                            <h4>Title</h4>
-                            <p>Artist</p>
-                        </div>
-                        <div class="queue">Queue</div>
+                    <div class="song-info">
+                        <h4>Title</h4>
+                        <p>Artist</p>
                     </div>
-
+                    <div class="queue">Queue</div>
                 </div>
-            </td>
-            <td class="song-box-height align-bottom" id="sideBox">
-                <div class="scrollable-box">
-                    <div class="song-div">
-                        <img src="static/images/image-placeholder.jpg">
-                        <div class="song-info">
-                            <h4>Title</h4>
-                            <p>Artist</p>
-                        </div>
+
+            </div>
+        </td>
+        <td class="song-box-height align-bottom" id="sideBox">
+            <div class="scrollable-box">
+                <div class="song-div">
+                    <img src="static/images/image-placeholder.jpg">
+                    <div class="song-info">
+                        <h4>Title</h4>
+                        <p>Artist</p>
                     </div>
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3">
-                <audio class="audio-player" controls>
-                    <source src="your-audio-file.mp3" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="3">
+            <audio class="audio-player" controls>
+                <source src="your-audio-file.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </td>
+    </tr>
+</table>
 </body>
 </html>

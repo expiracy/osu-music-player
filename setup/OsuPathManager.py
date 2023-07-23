@@ -46,7 +46,9 @@ class OsuPathManager:
             file.write(osu_path)
 
     def ask_for_path(self):
-        osu_path = input("Enter exact file path to osu folder (eg C:/Users/{YOUR-USERNAME}/AppData/Local/osu!)\n>").strip("/").strip("\\")
+        osu_path = input(
+            "Enter exact file path to osu folder (eg C:/Users/{YOUR-USERNAME}/AppData/Local/osu!)\n>").strip("/").strip(
+            "\\")
 
         try:
             if not self.validate_path(osu_path):
@@ -56,4 +58,3 @@ class OsuPathManager:
             return self.ask_for_path()
 
         return osu_path
-

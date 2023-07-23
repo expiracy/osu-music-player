@@ -38,6 +38,9 @@ class SongDataExtractor:
                     song.artist = beatmap_data["Artist"]
                     song.mp3_path = f"{path}/{song_folder}/{beatmap_data['AudioFilename']}"
 
+                    if "Tags" in beatmap_data:
+                        song.tags = beatmap_data["Tags"].lower()
+
                     self.songs.add(song)
 
             # When no background image is found, use the placeholder image

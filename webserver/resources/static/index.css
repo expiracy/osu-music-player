@@ -109,6 +109,7 @@ h4 {
     border-radius: 20px;
     cursor: pointer;
 }
+
 /* Search button style */
 .icon-button {
     font-weight: bold;
@@ -171,6 +172,7 @@ h4 {
     width: 100%;
     margin-left: 10px;
 }
+
 .song-div:hover {
     background-color: #d3d3d3;
     cursor: pointer;

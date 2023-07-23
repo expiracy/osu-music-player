@@ -3,63 +3,64 @@
 <head>
     <title>osu! Music Player</title>
 
-    <link rel="stylesheet" href="css/elements.css">
-    <link rel="stylesheet" href="css/song-button.css">
-    <link rel="stylesheet" href="css/search-box.css">
-    <link rel="stylesheet" href="css/song-box.css">
-    <link rel="stylesheet" href="css/song-player.css">
+    <link href="css/elements.css" rel="stylesheet">
+    <link href="css/song-button.css" rel="stylesheet">
+    <link href="css/search-box.css" rel="stylesheet">
+    <link href="css/song-box.css" rel="stylesheet">
+    <link href="css/song-player.css" rel="stylesheet">
 
-    <link rel="icon" type="image/png" href="../resources/static/images/osu.png">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link href="../resources/static/images/osu.png" rel="icon" type="image/png">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <main>
-        <div class="main">
-            <table>
-                <tr>
-                    <div class="search-container">
-                        <input type="text" id="searchField" placeholder="Search...">
-                        <button type="submit" id="searchButton" onclick="search()">
+<main>
+    <div class="main">
+        <table>
+            <tr>
+                <div class="search-container">
+                    <input id="searchField" placeholder="Search..." type="text">
+                    <button id="searchButton" onclick="search()" type="submit">
                         <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </tr>
-                <tr>
-                    <td>
-                        <div class="player-box">
-                            <div class="album-art">
-                                <img src="../resources/static/images/image-placeholder.jpg" id="playing-song-image" alt="image">
-                            </div>
-
-                            <div class="song-info">
-                                <h3 id="playing-song-name">Song Title</h3>
-                                <p id="playing-song-artist">Artist Name</p>
-                            </div>
+                    </button>
+                </div>
+            </tr>
+            <tr>
+                <td>
+                    <div class="player-box">
+                        <div class="album-art">
+                            <img alt="image" id="playing-song-image"
+                                 src="../resources/static/images/image-placeholder.jpg">
                         </div>
 
-                    </td>
+                        <div class="song-info">
+                            <h3 id="playing-song-name">Song Title</h3>
+                            <p id="playing-song-artist">Artist Name</p>
+                        </div>
+                    </div>
 
-                    <td>
-                        <div class="songs-box songs-box-scroll" id="songsList"></div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <audio controls id="audio-player" class="bottom-table">
-                            <source src="" type="audio/mp3" id="audio-source">
-                            Your browser does not support the audio element.
-                        </audio>
-                    </td>
+                </td>
 
-                </tr>
-            </table>
+                <td>
+                    <div class="songs-box songs-box-scroll" id="songsList"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <audio class="bottom-table" controls id="audio-player">
+                        <source id="audio-source" src="" type="audio/mp3">
+                        Your browser does not support the audio element.
+                    </audio>
+                </td>
 
-
-        </div>
-    </main>
+            </tr>
+        </table>
 
 
-    <script src="../resources/static/index.js"></script>
+    </div>
+</main>
+
+
+<script src="../resources/static/index.js"></script>
 
 </body>
 </html>

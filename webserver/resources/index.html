@@ -2,64 +2,64 @@
 <html>
 <head>
     <title>osu! Music Player</title>
-    <link rel="stylesheet" href="static/index.css">
-    <link rel="icon" type="image/png" href="static/images/osu.png">
+    <link href="static/index.css" rel="stylesheet">
+    <link href="static/images/osu.png" rel="icon" type="image/png">
 
 </head>
 <body>
-    <table>
-        <tr>
-            <td class="fixed-width-cell align-top">
-                <div class="flex">
-                    <input type="text" class="search-input shadow" id="searchInput" placeholder="Search (ENTER to submit)">
-                </div>
+<table>
+    <tr>
+        <td class="fixed-width-cell align-top">
+            <div class="flex">
+                <input class="search-input shadow" id="searchInput" placeholder="Search (ENTER to submit)" type="text">
+            </div>
 
-                <div class="side-buttons">
-                    <button class="side-button shadow" onclick="fetchSongLibrary()">Library</button>
-                    <button class="side-button shadow" onclick="fetchPlaylist('queue')">Queue</button>
-                </div>
+            <div class="side-buttons">
+                <button class="side-button shadow" onclick="fetchSongLibrary()">Library</button>
+                <button class="side-button shadow" onclick="fetchPlaylist('queue')">Queue</button>
+            </div>
 
-                <div class="playing-song">
-                    <a href="" id="playingLink" target=”_blank”>
-                        <img src="static/images/image-placeholder.jpg" alt="Image" id="playingSongImage" class="shadow">
-                    </a>
-                    <h4 id="playingSongName">Song Name</h4>
-                    <p id="playingSongArtist">Artist</p>
-                </div>
+            <div class="playing-song">
+                <a href="" id="playingLink" target=”_blank”>
+                    <img alt="Image" class="shadow" id="playingSongImage" src="static/images/image-placeholder.jpg">
+                </a>
+                <h4 id="playingSongName">Song Name</h4>
+                <p id="playingSongArtist">Artist</p>
+            </div>
 
 
-            </td>
+        </td>
 
-            <td class="song-box song-box-height align-bottom">
-                <div class="scrollable-box" id="songsBox">
-                    <div class="song-div">
-                        <div class="song-info">
-                            <h4>Title</h4>
-                            <p>Artist</p>
-                        </div>
-
-                        <div class="action-div">
-                            <h4>Queue</h4>
-                        </div>
-
+        <td class="song-box song-box-height align-bottom">
+            <div class="scrollable-box" id="songsBox">
+                <div class="song-div">
+                    <div class="song-info">
+                        <h4>Title</h4>
+                        <p>Artist</p>
                     </div>
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <div class="flex">
-                    <button class="full-width-button icon-button shadow" onclick="loop()" id="loopButton">↻</button>
-                    <button class="full-width-button icon-button shadow" onclick="playNext()">➝</button>
 
-                    <audio class="audio-player" controls id="audioPlayer">
-                        <source src="" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
+                    <div class="action-div">
+                        <h4>Queue</h4>
+                    </div>
+
                 </div>
-            </td>
-        </tr>
-    </table>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <div class="flex">
+                <button class="full-width-button icon-button shadow" id="loopButton" onclick="loop()">↻</button>
+                <button class="full-width-button icon-button shadow" onclick="playNext()">➝</button>
+
+                <audio class="audio-player" controls id="audioPlayer">
+                    <source src="" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+        </td>
+    </tr>
+</table>
 
 <script src="static/index.js"></script>
 </body>
