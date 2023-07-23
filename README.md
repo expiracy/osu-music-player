@@ -4,9 +4,9 @@
 
 ## Introduction
 
-The Web-Based Osu! Music Application is a web application that allows users to interact with their local Osu! song files
-directly in the browser. It provides a seamless and intuitive way to manage and enjoy your Osu! music collection without
-the need for any additional software installation.
+The Web-Based osu! Music player is a web application that allows users to interact with their local osu! song files
+directly in the browser. It provides a seamless and intuitive way to manage and enjoy your osu! music collection without
+the need for any additional software installation. 
 
 ## Features
 
