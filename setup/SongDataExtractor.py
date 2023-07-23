@@ -1,7 +1,7 @@
 import os
 
 from setup.OsuFileParser import OsuFileParser
-from song.data.Song import Song
+from song.Song import Song
 
 
 class SongDataExtractor:

@@ -1,9 +1,9 @@
 from flask import jsonify
 
 from setup.SongDataExtractor import SongDataExtractor
-from song.data.Playlist import Playlist
-from song.data.Queue import Queue
-from song.data.SongLibrary import SongLibrary
+from song.Playlist import Playlist
+from song.Queue import Queue
+from song.SongLibrary import SongLibrary
 
 
 class SongManager:

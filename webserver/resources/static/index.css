@@ -92,16 +92,17 @@ h4 {
     width: 100%;
     border-radius: 20px;
     background-color: #F1F3F4;
-    padding: 10px;
+    padding: 15px;
     border: none;
     outline: none;
 }
 
 .side-button {
+    font-weight: bold;
     margin-top: 10px;
     display: block;
     width: 100%;
-    padding: 10px;
+    padding: 15px;
     background-color: #F1F3F4;
     color: #2d2d2d;
     border: none;
@@ -112,7 +113,7 @@ h4 {
 .icon-button {
     font-weight: bold;
     width: auto;
-    padding: 10px;
+    padding: 15px;
     background-color: #f0f0f0;
     color: #2d2d2d;
     border: none;

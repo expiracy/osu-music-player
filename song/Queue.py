@@ -1,5 +1,4 @@
-from song.data.Playlist import Playlist
-from song.data.Song import Song
+from song.Playlist import Playlist
 
 
 class Queue(Playlist):

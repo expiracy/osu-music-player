@@ -4,8 +4,8 @@ from song.SongManager import SongManager
 
 
 class Webserver:
-    def __init__(self):
-        self.song_manager = SongManager("C:/Users/james/AppData/Local/osu!")
+    def __init__(self, path):
+        self.song_manager = SongManager(path)
         self.webserver = Flask(__name__, template_folder='resources', static_folder='resources/static/')
         self.register_routes()
 
@@ -87,9 +87,4 @@ class Webserver:
         return render_template('index.html')
 
     def run(self):
-        self.webserver.run()
-
-
-if __name__ == '__main__':
-    server = Webserver()
-    server.run()
+        self.webserver.run(port=727)
