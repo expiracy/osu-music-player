@@ -24,6 +24,3 @@ Before using the Web-Based Osu! Music Application, you need to follow these setu
 
 After this, open a browser and navigate to:
 http://localhost:727
-
-## Enjoy!
-
