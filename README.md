@@ -15,12 +15,11 @@ the need for any additional software installation.
 - View the beatmap listing by clicking the playing song image.
 - Search by song name, artist or tag.
 
-## Setup
+## Setup and Usage
 
-Before using the Web-Based Osu! Music Application, you need to follow these setup instructions:
+To use the application:
 
-1. Download the exe file
-2. Enter the path to your osu! folder
-
-After this, open a browser and navigate to:
-http://localhost:727
+1. Download the exe file from the releases page
+2. Run the exe file
+3. Enter the path to your osu! folder (this is a one time step)
+4. Open a browser and navigate to http://localhost:727
