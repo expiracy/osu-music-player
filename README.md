@@ -23,3 +23,6 @@ To use the application:
 2. Run the exe file
 3. Enter the path to your osu! folder (this is a one time step)
 4. Open a browser and navigate to http://localhost:727
+
+## Bugs/Feature Requests
+Message expiracy on discord
