@@ -87,4 +87,4 @@ class Webserver:
         return render_template('index.html')
 
     def run(self):
-        self.webserver.run(port=727)
+        self.webserver.run(port=727, host="0.0.0.0")

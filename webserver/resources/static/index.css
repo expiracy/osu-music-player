@@ -130,7 +130,7 @@ h4 {
 
 /* Make the second row's second cell take up the remaining width and height */
 .song-box-height {
-    height: calc(100vh - 104px); /* 100vh - 162px/104px (total height of other cells) */
+    height: calc(100vh - 99px); /* 100vh - 162px/99px (total height of other cells) */
     overflow: hidden; /* Hide overflowing content */
 }
 
