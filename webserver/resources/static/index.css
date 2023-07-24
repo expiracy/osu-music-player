@@ -192,6 +192,6 @@ h4 {
     text-align: right;
 }
 
-.action-div:hover h4 {
+.underlineOnHover:hover {
     text-decoration: underline;
 }

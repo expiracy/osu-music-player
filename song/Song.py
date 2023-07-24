@@ -2,12 +2,12 @@ from flask import jsonify
 
 
 class Song:
-    def __init__(self, id=-1, name="", artist="", mp3_path="", image_path=""):
-        self.id = id
-        self.name = name
-        self.artist = artist
-        self.mp3_path = mp3_path
-        self.image_path = image_path
+    def __init__(self):
+        self.id = -1
+        self.name = ""
+        self.artist = ""
+        self.mp3_path = ""
+        self.image_path = ""
         self.tags = []
 
     def get_json(self):

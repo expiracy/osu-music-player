@@ -1,7 +1,10 @@
-from setup.OsuPathManager import OsuPathManager
-from webserver.Webserver import Webserver
+from setup.DataJsonManager import DataJsonManager
+from webserver.App import App
 
 if __name__ == "__main__":
-    osu_path = OsuPathManager().osu_path
-    server = Webserver(osu_path)
+    data = DataJsonManager()
+    osu_path = data.osu_path
+    favourites = data.favourites
+
+    server = App(osu_path, favourites)
     server.run()

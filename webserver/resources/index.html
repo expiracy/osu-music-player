@@ -4,7 +4,8 @@
     <title>osu! Music Player</title>
     <link href="static/index.css" rel="stylesheet">
     <link href="static/images/osu.png" rel="icon" type="image/png">
-    <meta "user-scalable=no">
+    <meta
+    "user-scalable=no">
 
 </head>
 <body>
@@ -18,6 +19,7 @@
             <div class="side-buttons">
                 <button class="side-button shadow" onclick="fetchSongLibrary()">Library</button>
                 <button class="side-button shadow" onclick="fetchPlaylist('queue')">Queue</button>
+                <button class="side-button shadow" onclick="fetchPlaylist('favourites')">Favourites</button>
             </div>
 
             <div class="playing-song">
@@ -40,7 +42,9 @@
                     </div>
 
                     <div class="action-div">
-                        <h4>Queue</h4>
+                        <h4 class="underlineOnHover" id="queueButton">Queue</h4>
+                        <h4 class="underlineOnHover" id="favouriteButton">Favourite</h4>
+                        <h4 class="underlineOnHover" id="unfavouriteButton">Unfavourite</h4>
                     </div>
 
                 </div>

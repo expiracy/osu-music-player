@@ -3,6 +3,8 @@ var queueSize = 0;
 var currentPlaylist = "library";
 var isLooped = false;
 
+var songIdToFavourite = new Map();
+
 function loop() {
     isLooped = !isLooped
 
@@ -27,7 +29,7 @@ function addToQueue(song) {
             return response.text();
         })
         .then(data => {
-            queueSize = JSON.parse(data);
+            queueSize = JSON.parse(data).length;
         })
         .catch(error => {
             console.error(error);
@@ -135,11 +137,12 @@ function addSongButton(song, element, songIndex) {
     songInfo.appendChild(name);
     songInfo.appendChild(artist);
 
-    let queueDiv = document.createElement('div');
-    let queueButton = document.createElement('h4')
-    queueDiv.appendChild(queueButton);
+    let actionDiv = document.createElement('div');
+    actionDiv.className = "action-div";
 
-    queueDiv.className = "action-div";
+    let queueButton = document.createElement('h4')
+    queueButton.className = "underlineOnHover"
+    actionDiv.appendChild(queueButton);
 
     if (currentPlaylist !== "queue") {
         queueButton.innerText = "Queue";
@@ -155,14 +158,84 @@ function addSongButton(song, element, songIndex) {
         });
     }
 
+    let favouriteButton = document.createElement('h4')
+    let unfavouriteButton = document.createElement('h4')
+    favouriteButton.className = "underlineOnHover"
+    unfavouriteButton.className = "underlineOnHover"
+
+    favouriteButton.addEventListener('click', () => {
+        favouriteSong(song, favouriteButton, unfavouriteButton)
+    });
+
+    unfavouriteButton.addEventListener('click', () => {
+        unfavouriteSong(song, favouriteButton, unfavouriteButton)
+    });
+
+    actionDiv.appendChild(favouriteButton);
+    actionDiv.appendChild(unfavouriteButton);
+
+    fetch(`/api/is_favourite?song_id=${song.id}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.text();
+        })
+        .then(data => {
+            let favourite = JSON.parse(data);
+
+            if (favourite === true) {
+                unfavouriteButton.innerText = "Unfavourite"
+            } else {
+                favouriteButton.innerText = "Favourite"
+            }
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
     songButtonDiv.appendChild(songInfo);
-    songButtonDiv.appendChild(queueDiv);
+    songButtonDiv.appendChild(actionDiv);
 
     songButtonDiv.addEventListener('dblclick', () => {
         playSong(song)
     });
 
     element.appendChild(songButtonDiv);
+}
+
+function favouriteSong(song, favouriteButton, unfavouriteButton) {
+    favouriteButton.innerText = ""
+    unfavouriteButton.innerText = "Unfavourite"
+
+    fetch(`/api/add_song?song_id=${song.id}&playlist_name=favourites`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return null;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+}
+
+function unfavouriteSong(song, favouriteButton, unfavouriteButton) {
+    favouriteButton.innerText = "Favourite"
+    unfavouriteButton.innerText = ""
+
+    fetch(`/api/remove_song?song_id=${song.id}&playlist_name=favourites&method=song_id`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return null;
+        })
+        .catch(error => {
+            console.error(error);
+        });
+
+    if (currentPlaylist === "favourites") fetchPlaylist("favourites");
 }
 
 function setImage(songId, element) {
