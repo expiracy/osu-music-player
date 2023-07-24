@@ -6,7 +6,7 @@ from song.Song import Song
 
 class SongDataExtractor:
     def __init__(self, path, songs):
-        self.songs = songs
+        self.songs_store = songs
         self.extract(path)
 
     def extract(self, path):
@@ -41,7 +41,7 @@ class SongDataExtractor:
                     if "Tags" in beatmap_data:
                         song.tags = beatmap_data["Tags"].lower()
 
-                    self.songs.add(song)
+                    self.songs_store.add(song)
 
             # When no background image is found, use the placeholder image
             if not song.image_path:

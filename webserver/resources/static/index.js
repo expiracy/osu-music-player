@@ -2,8 +2,7 @@ const placeHolderImage = 'static/images/image-placeholder.jpg';
 var queueSize = 0;
 var currentPlaylist = "library";
 var isLooped = false;
-
-var songIdToFavourite = new Map();
+var favouritesSet = new Set();
 
 function loop() {
     isLooped = !isLooped
@@ -20,102 +19,75 @@ function loop() {
     }
 }
 
-function addToQueue(song) {
-    fetch(`/api/add_song?song_id=${song.id}&playlist_name=queue`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            queueSize = JSON.parse(data).length;
-        })
-        .catch(error => {
-            console.error(error);
-        });
+async function addToQueue(song) {
+    try {
+        let response = await fetch(`/api/add_song?song_id=${song.id}&playlist_name=queue`);
+
+        if (!response.ok) return;
+
+        queueSize = JSON.parse(await response.text()).length;
+        console.log((response));
+
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-function playNextInQueue() {
-    fetch(`/api/dequeue`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            queueSize -= 1;
-            let song = JSON.parse(data);
-            playSong(song);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+async function playNextInQueue() {
+    try {
+        let response = await fetch(`/api/dequeue`)
+
+        if (!response.ok) return;
+
+        queueSize -= 1;
+        let song = JSON.parse(await response.text());
+        await playSong(song);
+
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-function removeFromQueue(songIndex) {
-    fetch(`/api/remove_song?playlist_name=queue&method=index&index=${songIndex}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            queueSize -= 1;
-            let songsData = JSON.parse(data);
-            setSongsBox(songsData);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+async function removeFromQueue(songIndex) {
+    try {
+        let response = await fetch(`/api/remove_song?playlist_name=queue&method=index&index=${songIndex}`)
+
+        if (!response.ok) return;
+
+        queueSize -= 1;
+        let queue = JSON.parse(await response.text());
+
+        if (currentPlaylist === "queue") setSongsBox(queue);
+
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-function fetchPlaylist(playlist) {
-    currentPlaylist = playlist;
-    fetch(`/api/get_playlist?name=${playlist}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            let songsData = JSON.parse(data);
-            setSongsBox(songsData);
-        })
-        .catch(error => {
-            console.error(error);
-        });
+
+async function fetchPlaylist(playlist) {
+    let songs = [];
+
+    try {
+        let response = await fetch(`/api/get_playlist?name=${playlist}`)
+
+        if (!response.ok) return songs;
+
+        songs = JSON.parse(await response.text());
+
+    } catch (error) {
+        console.log(error)
+    }
+
+    return songs;
 }
 
-function fetchSongLibrary() {
-    currentPlaylist = "library";
-
-    fetch(`/api/get_library`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            let songsData = JSON.parse(data);
-            setSongsBox(songsData);
-        })
-        .catch(error => {
-            console.error(error);
-        });
-}
-
-function setSongsBox(songsData) {
+function setSongsBox(songs) {
     let songsBox = document.getElementById('songsBox');
     songsBox.innerHTML = "";
-
     let songIndex = -1;
 
-    songsData.forEach(song => {
+    songs.forEach(song => {
         addSongButton(song, songsBox, songIndex + 1)
     });
 }
@@ -147,15 +119,19 @@ function addSongButton(song, element, songIndex) {
     if (currentPlaylist !== "queue") {
         queueButton.innerText = "Queue";
 
-        queueButton.addEventListener('click', () => {
-            addToQueue(song);
-        });
+        queueButton.addEventListener('click',
+            async () => {
+                await addToQueue(song);
+            }
+        );
     } else {
         queueButton.innerText = "Dequeue";
 
-        queueButton.addEventListener('click', () => {
-            removeFromQueue(songIndex);
-        });
+        queueButton.addEventListener('click',
+            async () => {
+                await removeFromQueue(songIndex);
+            }
+        );
     }
 
     let favouriteButton = document.createElement('h4')
@@ -163,185 +139,162 @@ function addSongButton(song, element, songIndex) {
     favouriteButton.className = "underlineOnHover"
     unfavouriteButton.className = "underlineOnHover"
 
-    favouriteButton.addEventListener('click', () => {
-        favouriteSong(song, favouriteButton, unfavouriteButton)
-    });
+    favouriteButton.addEventListener('click',
+        async () => {
+            await addFavourite(song, favouriteButton, unfavouriteButton)
+        }
+    );
 
-    unfavouriteButton.addEventListener('click', () => {
-        unfavouriteSong(song, favouriteButton, unfavouriteButton)
-    });
+    unfavouriteButton.addEventListener('click',
+        async () => {
+            await removeFavourite(song, favouriteButton, unfavouriteButton)
+        }
+    );
 
     actionDiv.appendChild(favouriteButton);
     actionDiv.appendChild(unfavouriteButton);
 
-    fetch(`/api/is_favourite?song_id=${song.id}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            let favourite = JSON.parse(data);
-
-            if (favourite === true) {
-                unfavouriteButton.innerText = "Unfavourite"
-            } else {
-                favouriteButton.innerText = "Favourite"
-            }
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    if (favouritesSet.has(song.id))
+        unfavouriteButton.innerText = "Unfavourite";
+    else
+        favouriteButton.innerText = "Favourite";
 
     songButtonDiv.appendChild(songInfo);
     songButtonDiv.appendChild(actionDiv);
 
-    songButtonDiv.addEventListener('dblclick', () => {
-        playSong(song)
-    });
+    songButtonDiv.addEventListener('dblclick',
+        async () => {
+            await playSong(song)
+        }
+    );
 
     element.appendChild(songButtonDiv);
 }
 
-function favouriteSong(song, favouriteButton, unfavouriteButton) {
+async function addFavourite(song, favouriteButton, unfavouriteButton) {
     favouriteButton.innerText = ""
     unfavouriteButton.innerText = "Unfavourite"
 
-    fetch(`/api/add_song?song_id=${song.id}&playlist_name=favourites`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return null;
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    favouritesSet.add(song.id);
+
+    try {
+        await fetch(`/api/add_song?song_id=${song.id}&playlist_name=favourites`)
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-function unfavouriteSong(song, favouriteButton, unfavouriteButton) {
+async function removeFavourite(song, favouriteButton, unfavouriteButton) {
     favouriteButton.innerText = "Favourite"
     unfavouriteButton.innerText = ""
 
-    fetch(`/api/remove_song?song_id=${song.id}&playlist_name=favourites&method=song_id`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return null;
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    favouritesSet.delete(song.id)
 
-    if (currentPlaylist === "favourites") fetchPlaylist("favourites");
+    try {
+        await fetch(`/api/remove_song?song_id=${song.id}&playlist_name=favourites&method=song_id`)
+
+        if (currentPlaylist === "favourites") {
+            await setSongsBoxPlaylist("favourites");
+        }
+
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-function setImage(songId, element) {
-    fetch(`/api/get_media?song_id=${songId}&type=image`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.blob();
-        })
-        .then(data => {
-            let imageBlob = new Blob([data], {type: 'image/jpeg'});
+async function getMediaUrl(song_id, type) {
+    try {
+        let response = await fetch(`/api/get_media?song_id=${song_id}&type=${type}`);
 
-            element.src = URL.createObjectURL(imageBlob);
-        })
-        .catch(error => {
-            console.error(error);
-            element.src = placeHolderImage;
-        });
+        if (!response.ok) return null;
+
+        let blob = null;
+
+        switch (type) {
+            case "audio":
+                blob = new Blob([await response.blob()], {type: 'audio/mpeg'}); break;
+            case "image":
+                blob = new Blob([await response.blob()], {type: 'image/jpeg'}); break;
+        }
+
+        return URL.createObjectURL(blob);
+
+    } catch (error) {
+        console.error(error);
+    }
 }
 
-function playSong(song) {
+async function setSongsBoxPlaylist(playlist) {
+    currentPlaylist = playlist;
+    let songs = await fetchPlaylist(playlist);
+    setSongsBox(songs);
+}
+
+async function playSong(song) {
     document.getElementById("playingSongName").innerText = song.name;
     document.getElementById("playingSongArtist").innerText = song.artist;
-    setImage(song.id, document.getElementById("playingSongImage"))
 
-    document.getElementById("playingLink").setAttribute("href", "https://osu.ppy.sh/beatmapsets/" + song.id + "#osu")
+    document.getElementById("playingSongImage").src = await getMediaUrl(song.id, "image");
+    document.getElementById("playingLink").href = "https://osu.ppy.sh/beatmapsets/" + song.id + "#osu";
 
-    // Call the API to get the song URL
-    fetch(`/api/get_media?song_id=${song.id}&type=audio`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.blob();
-        })
-        .then(data => {
-            // Create an object URL from the Blob
-            let songBlob = new Blob([data], {type: 'audio/mpeg'});
-            let songURL = URL.createObjectURL(songBlob);
-
-            // Play the song using an audio element
-            let audioPlayer = document.getElementById("audioPlayer");
-            audioPlayer.src = songURL;
-            audioPlayer.load();
-            audioPlayer.play();
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    let audioPlayer = document.getElementById("audioPlayer");
+    audioPlayer.src = await getMediaUrl(song.id, "audio");
+    audioPlayer.load();
+    audioPlayer.play();
 }
 
-function search() {
+async function search() {
+    let search_results = [];
+
     let searchInput = document.getElementById("searchInput");
     let substring = searchInput.value;
-
     searchInput.value = "";
 
-    fetch(`/api/search?substring=${substring}`)
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.text();
-        })
-        .then(data => {
-            let songsData = JSON.parse(data);
-            console.log(songsData);
+    try {
+        let response = await fetch(`/api/search?substring=${substring}`)
 
-            if (songsData === []) {
-                location.reload();
-                return
-            }
+        if (!response.ok) return search_results;
 
-            let songsBox = document.getElementById('songsBox');
-            songsBox.innerHTML = "";
+        search_results = JSON.parse(await response.text());
 
-            songsData.forEach(song => {
-                addSongButton(song, songsBox)
-            });
-        })
-        .catch(error => {
-            console.error(error);
-        });
+    } catch (error) {
+        console.log(error)
+    }
+
+    setSongsBox(search_results);
 }
 
-function playNext() {
+async function playNext() {
     if (queueSize === 0) return;
-    if (currentPlaylist === "queue") fetchPlaylist("queue");
-    playNextInQueue();
+    if (currentPlaylist === "queue") {
+        await setSongsBoxPlaylist("queue");
+    }
+    await playNextInQueue();
 }
 
 
-document.getElementById('audioPlayer').addEventListener('ended', () => {
-    playNext()
-});
-
-document.addEventListener(
-    "DOMContentLoaded",
-    () => {
-        fetchSongLibrary();
+document.getElementById('audioPlayer').addEventListener('ended',
+    async () => {
+        await playNext()
     }
 );
 
+document.addEventListener(
+    "DOMContentLoaded",
+         async () => {
+            let favourites = await fetchPlaylist("favourites");
+
+            favourites.forEach(song => {
+                favouritesSet.add(song.id);
+            });
+
+            await setSongsBoxPlaylist("library");
+         }
+);
+
 document.getElementById("searchInput").addEventListener('keypress',
-    () => {
-        if (event.key === "Enter") search();
+    async () => {
+        if (event.key === "Enter")
+            await search();
     }
 );

@@ -1,3 +1,5 @@
+from flask import jsonify
+
 from setup.DataJsonManager import DataJsonManager
 
 
@@ -42,3 +44,25 @@ class Playlist:
 
     def get_ids(self):
         return [song.id for song in self.songs]
+
+    def get_json(self):
+        return jsonify([
+            {"id": song.id, "name": song.name, "artist": song.artist}
+            for song in self.songs
+        ])
+
+    def search(self, substring):
+        results = []
+        tag_results = []
+
+        substring = substring.lower()
+
+        for song in self.songs:
+            if substring in song.name.lower() or substring in song.artist.lower():
+                results.append(song)
+
+            elif substring in song.tags:
+                tag_results.append(song)
+
+        return Playlist("search_results", results + tag_results)
+
