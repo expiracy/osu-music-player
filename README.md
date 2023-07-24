@@ -19,7 +19,10 @@ the need for any additional software installation.
 
 To use the application:
 
-1. Download the exe file from the releases page
+1. Download the exe file from the releases page (https://github.com/expiracy/osu-music-player/releases/)
 2. Run the exe file
 3. Enter the path to your osu! folder (this is a one time step)
 4. Open a browser and navigate to http://localhost:727
+
+## Bugs/Feature Requests
+Message expiracy on discord
