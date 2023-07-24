@@ -6,8 +6,8 @@ from song.SongManager import SongManager
 
 
 class App:
-    def __init__(self, path, favourites):
-        self.song_manager = SongManager(path, favourites)
+    def __init__(self, song_manager):
+        self.song_manager = song_manager
         self.webserver = Flask(__name__, template_folder='resources', static_folder='resources/static/')
         self.register_routes()
 
@@ -57,21 +57,16 @@ class App:
         return self.song_manager.get_json_library()
 
     def get_playlist(self):
-        name = str(request.args.get('name'))
+        name = request.args.get('name')
         return self.song_manager.get_json_playlist(name)
 
     def search(self):
-        substring = str(request.args.get('substring'))
+        substring = request.args.get('substring')
         songs = self.song_manager.library.search(substring)
         return SongManager.get_json(songs)
 
     def add_song(self):
-        try:
-            song_id = int(request.args.get('song_id'))
-        except ValueError as e:
-            print(e)
-            return "Song ID not an int"
-
+        song_id = int(request.args.get('song_id'))
         playlist_name = str(request.args.get('playlist_name'))
         self.song_manager.add_to_playlist(playlist_name, song_id)
 
@@ -79,7 +74,7 @@ class App:
 
     def remove_song(self):
         method = request.args.get('method')
-        playlist_name = str(request.args.get('playlist_name'))
+        playlist_name = request.args.get('playlist_name')
 
         if method == "index":
             index = int(request.args.get('index'))
@@ -95,4 +90,4 @@ class App:
         return render_template('index.html')
 
     def run(self):
-        self.webserver.run(port=727, host="0.0.0.0")  # Also runs on LAN
+        self.webserver.run(port=727)

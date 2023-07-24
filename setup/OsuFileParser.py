@@ -5,7 +5,6 @@ class OsuFileParser:
 
         with open(path, "r", encoding="utf8") as file:
             self.parse(file)
-            pass
 
     def parse(self, file):
         lines = file.readlines()

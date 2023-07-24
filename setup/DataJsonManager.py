@@ -6,21 +6,16 @@ class DataJsonManager:
     json_path = f"{os.getcwd()}\\osu_music_player_data.json"
 
     def __init__(self):
-        data = {}
-
-        # Load the data file if it exists
         try:
+            # Load the data file if it exists
             with open(self.json_path, 'r') as file:
                 data = json.load(file)
 
-        # Create the data file
-        except FileNotFoundError:
+        except Exception:
+            # Resets the file if there were any issues
             with open(self.json_path, 'w') as file:
                 data = {"osu_path": "", "favourites": []}
                 json.dump(data, file)
-
-        except Exception as e:
-            print(e)
 
         self.osu_path = data["osu_path"]
         self.favourites = data["favourites"]
