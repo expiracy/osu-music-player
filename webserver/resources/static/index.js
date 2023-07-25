@@ -193,7 +193,9 @@ async function removeFavourite(song, favouriteButton, unfavouriteButton) {
     favouritesSet.delete(song.id)
 
     try {
-        await fetch(`/api/remove_song?song_id=${song.id}&playlist_name=favourites&method=song_id`)
+        let response = await fetch(`/api/remove_song?song_id=${song.id}&playlist_name=favourites&method=song_id`)
+
+        if (!response.ok) return;
 
         if (currentPlaylist === "favourites") {
             await setSongsBoxPlaylist("favourites");
