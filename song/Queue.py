@@ -1,4 +1,5 @@
 from song.Playlist import Playlist
+from song.Song import Song
 
 
 class Queue(Playlist):
@@ -10,6 +11,6 @@ class Queue(Playlist):
 
     def dequeue(self):
         if len(self.songs) == 0:
-            return None
+            return Song()
 
         return self.songs.pop(0)
