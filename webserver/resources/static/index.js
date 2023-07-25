@@ -296,7 +296,7 @@ document.getElementById('audioPlayer')
         async () => {
             await playNext()
         }
-);
+    );
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -317,4 +317,4 @@ document.getElementById("searchInput")
             if (event.key === "Enter")
                 await search();
         }
-);
+    );
