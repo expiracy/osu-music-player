@@ -16,7 +16,8 @@ class Playlist:
         self.songs.append(song)
 
     def remove_by_index(self, index):
-        self.songs.pop(index)
+        if index < len(self.songs):
+            self.songs.pop(index)
 
     def remove(self, song):
         try:

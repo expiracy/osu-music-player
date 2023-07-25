@@ -166,7 +166,7 @@ function addSongButton(song, element, songIndex) {
 
     songButtonDiv.addEventListener('dblclick',
         async () => {
-            await playSong(song)
+            await playSong(song);
         }
     );
 
@@ -207,8 +207,11 @@ async function removeFavourite(song, favouriteButton, unfavouriteButton) {
 }
 
 async function getMediaUrl(song_id, type) {
-    if (type==="image" && imageUrlMap.has(song_id)) return imageUrlMap.get(song_id);
-    if (type==="audio" && audioUrlMap.has(song_id)) return audioUrlMap.get(song_id);
+    // Skip get request if already exists
+    if (type === "image" && imageUrlMap.has(song_id))
+        return imageUrlMap.get(song_id);
+    if (type === "audio" && audioUrlMap.has(song_id))
+        return audioUrlMap.get(song_id);
 
     try {
         let response = await fetch(`/api/get_media?song_id=${song_id}&type=${type}`);
@@ -288,10 +291,11 @@ async function playNext() {
 }
 
 
-document.getElementById('audioPlayer').addEventListener('ended',
-    async () => {
-        await playNext()
-    }
+document.getElementById('audioPlayer')
+    .addEventListener('ended',
+        async () => {
+            await playNext()
+        }
 );
 
 document.addEventListener(
@@ -307,9 +311,10 @@ document.addEventListener(
     }
 );
 
-document.getElementById("searchInput").addEventListener('keypress',
-    async () => {
-        if (event.key === "Enter")
-            await search();
-    }
+document.getElementById("searchInput")
+    .addEventListener('keypress',
+        async () => {
+            if (event.key === "Enter")
+                await search();
+        }
 );
