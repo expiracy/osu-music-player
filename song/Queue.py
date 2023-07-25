@@ -9,7 +9,7 @@ class Queue(Playlist):
             super().__init__()
 
     def dequeue(self):
-        if len(self.songs) > 0:
+        if len(self.songs) == 0:
             return None
 
         return self.songs.pop(0)
