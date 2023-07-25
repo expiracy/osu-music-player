@@ -2,7 +2,10 @@ const placeHolderImage = 'static/images/image-placeholder.jpg';
 var queueSize = 0;
 var currentPlaylist = "library";
 var isLooped = false;
+
 var favouritesSet = new Set();
+var audioUrlMap = new Map();
+var imageUrlMap = new Map();
 
 function loop() {
     isLooped = !isLooped
@@ -54,8 +57,8 @@ async function removeFromQueue(songIndex) {
 
         if (!response.ok) return;
 
-        queueSize -= 1;
         let queue = JSON.parse(await response.text());
+        queueSize -= 1;
 
         if (currentPlaylist === "queue") setSongsBox(queue);
 
@@ -63,7 +66,6 @@ async function removeFromQueue(songIndex) {
         console.error(error);
     }
 }
-
 
 async function fetchPlaylist(playlist) {
     let songs = [];
@@ -134,10 +136,10 @@ function addSongButton(song, element, songIndex) {
         );
     }
 
-    let favouriteButton = document.createElement('h4')
-    let unfavouriteButton = document.createElement('h4')
-    favouriteButton.className = "underlineOnHover"
-    unfavouriteButton.className = "underlineOnHover"
+    let favouriteButton = document.createElement('h4');
+    favouriteButton.className = "underlineOnHover";
+    let unfavouriteButton = document.createElement('h4');
+    unfavouriteButton.className = "underlineOnHover";
 
     favouriteButton.addEventListener('click',
         async () => {
@@ -203,21 +205,29 @@ async function removeFavourite(song, favouriteButton, unfavouriteButton) {
 }
 
 async function getMediaUrl(song_id, type) {
+    if (type==="image" && imageUrlMap.has(song_id)) return imageUrlMap.get(song_id);
+    if (type==="audio" && audioUrlMap.has(song_id)) return audioUrlMap.get(song_id);
+
     try {
         let response = await fetch(`/api/get_media?song_id=${song_id}&type=${type}`);
 
         if (!response.ok) return null;
 
-        let blob = null;
+        let blob = await response.blob();
+        let mediaUrl = null;
 
         switch (type) {
             case "audio":
-                blob = new Blob([await response.blob()], {type: 'audio/mpeg'}); break;
+                mediaUrl = URL.createObjectURL(new Blob([blob], {type: 'audio/mpeg'}));
+                audioUrlMap.set(song_id, mediaUrl);
+                break;
             case "image":
-                blob = new Blob([await response.blob()], {type: 'image/jpeg'}); break;
+                mediaUrl = URL.createObjectURL(new Blob([blob], {type: 'image/jpeg'}));
+                imageUrlMap.set(song_id, mediaUrl);
+                break;
         }
 
-        return URL.createObjectURL(blob);
+        return mediaUrl;
 
     } catch (error) {
         console.error(error);
@@ -266,10 +276,13 @@ async function search() {
 
 async function playNext() {
     if (queueSize === 0) return;
+
+    await playNextInQueue();
+
     if (currentPlaylist === "queue") {
         await setSongsBoxPlaylist("queue");
     }
-    await playNextInQueue();
+
 }
 
 
@@ -281,15 +294,15 @@ document.getElementById('audioPlayer').addEventListener('ended',
 
 document.addEventListener(
     "DOMContentLoaded",
-         async () => {
-            let favourites = await fetchPlaylist("favourites");
+    async () => {
+        let favourites = await fetchPlaylist("favourites");
 
-            favourites.forEach(song => {
-                favouritesSet.add(song.id);
-            });
+        favourites.forEach(song => {
+            favouritesSet.add(song.id);
+        });
 
-            await setSongsBoxPlaylist("library");
-         }
+        await setSongsBoxPlaylist("library");
+    }
 );
 
 document.getElementById("searchInput").addEventListener('keypress',

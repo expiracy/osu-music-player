@@ -1,8 +1,4 @@
-import json
-
 from flask import Flask, send_file, render_template, request
-
-from song.SongManager import SongManager
 
 
 class App:
@@ -21,15 +17,7 @@ class App:
         self.webserver.route('/api/remove_song', methods=['POST', 'GET'])(self.remove_song)
 
     def get_media(self):
-        try:
-            song_id = int(request.args.get('song_id'))
-        except ValueError as e:
-            print(e)
-            return "Song ID not an int"
-
-        if song_id not in self.song_manager.songs_store.song_id_to_song:
-            return "Song ID not found"
-
+        song_id = int(request.args.get('song_id'))
         media_type = request.args.get('type')
 
         if media_type == "image":

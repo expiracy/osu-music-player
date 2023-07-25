@@ -65,4 +65,3 @@ class Playlist:
                 tag_results.append(song)
 
         return Playlist("search_results", results + tag_results)
-
