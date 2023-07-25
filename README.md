@@ -23,8 +23,8 @@ To use the application:
 
 1. Download the exe file from the releases page (https://github.com/expiracy/osu-music-player/releases/)
 2. Run the exe file
-3. Enter the path to your osu! folder (this is a one time step)
-4. Open a browser and navigate to http://localhost:727
+3. Configure osu! path, 1 if default location, 2 for manual input (one time step)
+4. Open a browser and navigate to http://localhost:727 (note that the webserver may take a couple seconds to start)
 
 ## Bugs/Feature Requests
 
