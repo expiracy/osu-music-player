@@ -1,11 +1,11 @@
 # Web-Based osu! Music Player
 
-![Osu! Music App](https://cdn.discordapp.com/attachments/846480414217338913/1132668169736159272/image.png)
+![Osu! Music Player](https://cdn.discordapp.com/attachments/846480414217338913/1133220968807014410/image.png)
 
 ## Introduction
 
-The Web-Based osu! Music player is a web application that allows users to interact with their local osu! song files
-directly in the browser. It provides a seamless and intuitive way to manage and enjoy your osu! music collection without
+A web application that allows users to interact with their local osu! song files
+via the browser. It provides a seamless and intuitive way to manage and enjoy your osu! music collection without
 the need for any additional software installation.
 
 ## Features
@@ -14,6 +14,8 @@ the need for any additional software installation.
 - Play osu! songs directly in the browser with all the expected basic features of a music player.
 - View the beatmap listing by clicking the playing song image.
 - Search by song name, artist or tag.
+- Queue songs.
+- Favourite songs.
 
 ## Setup and Usage
 
